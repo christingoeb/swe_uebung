@@ -1,0 +1,39 @@
+' Kurseinschreibung:
+    ' Der Student meldet sich über die Methode enroll() bei einem Course an.
+    ' Der Kurs bestätigt die Einschreibung.
+' Prüfungsterminplanung:
+    ' Der Student fragt den Course nach dem Prüfungstermin.
+    ' Der Course wählt verfügbare Professoren aus, indem er die Methode checkAvailability()
+    ' bei Professor aufruft.
+    ' Sobald die Verfügbarkeit bestätigt ist, wird die Prüfung im Exam-Objekt geplant.
+' Prüfungsanmeldung:
+    ' Der Student registriert sich für die Prüfung über die Methode registerForExam() in der Exam-Klasse.
+    ' Die Exam-Klasse führt die Methode validateEnrollmentDate() aus, um sicherzustellen,
+    ' dass das Anmeldedatum noch vor dem Prüfungsdatum liegt.
+    ' Der Student erhält entweder eine Bestätigung oder eine Fehlermeldung, falls
+    ' die Anmeldefrist überschritten wurde.
+@startuml
+
+actor Student
+participant "Course" as Course
+participant "Exam" as Exam
+participant "Professor" as Professor
+
+' 1. Student meldet sich für einen Kurs an
+Student -> Course : enroll(student)
+Course -> Student : bestätige Einschreibung
+
+' 2. Course plant eine Prüfung und wählt Professoren aus
+Student -> Course : requestExamSchedule()
+Course -> Professor : checkAvailability()
+Professor --> Course : Verfügbarkeit bestätigen
+
+Course -> Exam : scheduleExam(professors)
+Exam -> Course : Prüfungstermin bestätigen
+
+' 3. Student meldet sich zur Prüfung an
+Student -> Exam : registerForExam(student)
+Exam -> Exam : validateEnrollmentDate(student)
+Exam --> Student : Anmeldebestätigung / Fehler bei Anmeldefrist
+
+@enduml

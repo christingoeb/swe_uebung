@@ -1,0 +1,119 @@
+' Aufgabe:
+' Modellieren Sie die Zusammenhänge und typischen Methoden
+    ' der Klassen Professor, Student, Course und Exam.
+    ' Als besondere Anforderung gilt: Es gibt Prüfungen, welche
+    ' nur durch einen Professor durchgeführt werden dürfen und
+    ' welche nur durch zwei Instanzen des Datentyps Professor (gemeinsam)
+    ' durchgeführt werden dürfen. Eine Prüfung darf entsprechend durch
+    ' einen Professor initiiert werden, aber die beiden Prüfer müssen bekannt
+    ' sein und deren zeitliche Verfügbarkeit überprüfbar sein. 
+'Modellieren Sie das Klassendiagramm.
+'Notieren Sie die beschriebenen Anforderungen und Ihre Annahmen präzise.
+
+' zusätzlich:
+    ' Es ist möglich, dass Studierende in Teilzeit oder in Vollzeit studieren.
+    ' Es gibt verschiedene 4 Dozentenarten: Professoren (Professor),
+        ' Gast-Professoren (GuestProfessor), Lehrbeauftrage (Lecturer),
+        ' Lehrkraft für besondere Aufgaben (TeacherForSpecialTasks). 
+    ' Es gibt viele verschiedene Prüfungsarten,
+        ' z. B. Klausuren (WrittenExam; mehrere Teilnehmer an der Prüfung möglich),
+        ' Präsentationen (Presentation; nur ein Teilnehmer möglich).
+        ' Alle Prüfungen verfügen über ein Datum, an dem sie durchgeführt werden.
+        ' Es muss davon ausgegangen, dass neue Prüfungsformen angelegt werden können.
+    ' Es muss sichergestellt sein, dass konkrete Prüfungen (Instanzen) nur von Professoren
+    ' angelegt werden dürfen.
+        ' Es wird als Fehler in der Ausführung (Runtime) betrachtet, wenn Studierende
+        ' sich nach dem Durchführungsdatum an eine Prüfung anmelden wollen.
+
+@startuml
+
+' Enum für Studienmodus der Studierenden
+enum StudyMode {
+    FULL_TIME
+    PART_TIME
+}
+
+' Enum für Prüfungsarten
+enum ExamType {
+    SINGLE_PROFESSOR
+    DOUBLE_PROFESSOR
+}
+
+' Abstrakte Klasse für verschiedene Dozententypen
+abstract class FacultyMember {
+    -name: String
+    -available: Boolean
+    +checkAvailability(): Boolean
+}
+
+' Spezifische Dozententypen als Subklassen
+class Professor extends FacultyMember
+class GuestProfessor extends FacultyMember
+class Lecturer extends FacultyMember
+class TeacherForSpecialTasks extends FacultyMember
+
+' Klasse Student mit zusätzlichen Attributen
+class Student {
+    -studentId: String
+    -name: String
+    -studyMode: StudyMode
+    +enroll(course: Course): void
+    +registerForExam(exam: Exam): void
+}
+
+' Abstrakte Klasse Exam mit Datum und Validierungsmethoden
+abstract class Exam {
+    -examId: String
+    -date: Date
+    -time: Time
+    -examType: ExamType
+    +schedule(professors: Professor[]): Boolean
+    +validateEnrollmentDate(student: Student): Boolean
+}
+
+' Spezifische Prüfungsarten als Subklassen von Exam
+class WrittenExam extends Exam {
+    +validateEnrollmentDate(student: Student): Boolean
+}
+
+class Presentation extends Exam {
+    +validateEnrollmentDate(student: Student): Boolean
+}
+
+' Klasse Course mit Beziehung zu Prüfungen und Studenten
+class Course {
+    -courseId: String
+    -title: String
+    +addStudent(student: Student): void
+    +removeStudent(student: Student): void
+    +scheduleExam(exam: Exam): void
+}
+
+' Assoziationen und Kardinalitäten
+Professor "1..*" -- "1" Exam : Prüfer
+Student "0..*" -- "1" Exam : nimmt teil
+Course "1" -- "0..*" Exam : organisiert
+Course "0..*" -- "1" Student : beinhaltet
+Exam "1" -- "0..*" Student : hat Teilnehmer
+
+' Zusätzliche Notizen
+note right of Student
+    Student kann entweder in Vollzeit oder Teilzeit studieren.
+    Studienmodus wird durch das Enum StudyMode definiert.
+end note
+
+note right of FacultyMember
+    Verschiedene Dozententypen:
+    - Professor (Professor)
+    - Gast-Professor (GuestProfessor)
+    - Lehrbeauftragte (Lecturer)
+    - Lehrkraft für besondere Aufgaben (TeacherForSpecialTasks)
+end note
+
+note right of Exam
+    Exam darf nur durch Professoren angelegt werden.
+    Prüfungsarten sind erweiterbar (z. B. WrittenExam, Presentation).
+    WrittenExam erlaubt mehrere Teilnehmer, Presentation nur einen Teilnehmer.
+end note
+
+@enduml
