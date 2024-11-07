@@ -25,6 +25,14 @@
         ' Es wird als Fehler in der Ausführung (Runtime) betrachtet, wenn Studierende
         ' sich nach dem Durchführungsdatum an eine Prüfung anmelden wollen.
 
+
+' Annahmen:
+    ' Professoren können mehrere Prüfungen durchführen.
+    ' verschiedene Prüfungsarten bestehen
+    ' Students können sich für Prüfungen anmelden
+    ' Students können an Kursen teilnehmen
+    ' Kurse können Prüfungen organisieren
+    ' 
 @startuml
 
 ' Enum für Studienmodus der Studierenden
@@ -39,10 +47,8 @@ enum ExamType {
     DOUBLE_PROFESSOR
 }
 
-' Abstrakte Klasse für verschiedene Dozententypen
-abstract class FacultyMember {
-    -name: String
-    -available: Boolean
+' Interface für verschiedene Dozententypen
+interface FacultyMember {
     +checkAvailability(): Boolean
 }
 
@@ -61,14 +67,18 @@ class Student {
     +registerForExam(exam: Exam): void
 }
 
-' Abstrakte Klasse Exam mit Datum und Validierungsmethoden
-abstract class Exam {
+' Interface Exam mit Datum und Validierungsmethoden
+interface ExamKinds {
+    +schedule(professors: Professor[]): Boolean
+    +validateEnrollmentDate(student: Student): Boolean
+}
+
+' Abstrakte Klasse für verschiedene Prüfungsarten
+abstract class Exam implements ExamKinds {
     -examId: String
     -date: Date
     -time: Time
     -examType: ExamType
-    +schedule(professors: Professor[]): Boolean
-    +validateEnrollmentDate(student: Student): Boolean
 }
 
 ' Spezifische Prüfungsarten als Subklassen von Exam
@@ -90,30 +100,39 @@ class Course {
 }
 
 ' Assoziationen und Kardinalitäten
-Professor "1..*" -- "1" Exam : Prüfer
-Student "0..*" -- "1" Exam : nimmt teil
-Course "1" -- "0..*" Exam : organisiert
-Course "0..*" -- "1" Student : beinhaltet
-Exam "1" -- "0..*" Student : hat Teilnehmer
+Professor "1..*" -- "1" Exam : Examiner
+Student "0..*" -- "1" Exam : takes part
+Course "1" -- "0..*" Exam : organises
+Course "0..*" -- "1" Student : contains
+Exam "1" -- "0..*" Student : has participants
 
 ' Zusätzliche Notizen
 note right of Student
-    Student kann entweder in Vollzeit oder Teilzeit studieren.
-    Studienmodus wird durch das Enum StudyMode definiert.
+    Student kann entweder in Vollzeit
+    oder Teilzeit studieren.
+    Studienmodus wird durch das
+    Enum StudyMode definiert.
 end note
 
 note right of FacultyMember
-    Verschiedene Dozententypen:
+    Verschiedene Dozententypen, die dieselben Methoden teilen
     - Professor (Professor)
     - Gast-Professor (GuestProfessor)
     - Lehrbeauftragte (Lecturer)
     - Lehrkraft für besondere Aufgaben (TeacherForSpecialTasks)
 end note
 
-note right of Exam
+note right of ExamKinds
     Exam darf nur durch Professoren angelegt werden.
-    Prüfungsarten sind erweiterbar (z. B. WrittenExam, Presentation).
-    WrittenExam erlaubt mehrere Teilnehmer, Presentation nur einen Teilnehmer.
+    Prüfungsarten sind mit Erzeugung von
+    Unterklassen erweiterbar (z. B. WrittenExam, Presentation).
+    WrittenExam erlaubt mehrere Teilnehmer
+    Presentation nur einen Teilnehmer.
+end note
+
+note left of Course
+    Kurse können Prüfungen organisieren
+    und Studenten beinhalten.
 end note
 
 @enduml

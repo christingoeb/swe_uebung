@@ -1,0 +1,49 @@
+
+@startuml
+
+' Interface Exam mit Datum und Validierungsmethoden
+interface ExamKind {
+    +Date getDate();
+}
+
+Interface ExamExecutionKind implements ExamKind {
+}
+
+' Spezifische Prüfungsarten als Subklassen von Exam
+Interface WrittenExam extends ExamExecutionKind {
+}
+
+Interface OralExamExam extends ExamExecutionKind {
+}
+
+Interface ExamExaminerKind extends ExamKind {
+
+}
+
+Interface ExamOneProfessor extends ExamExaminerKind {
+
+}
+Interface ExamTwoProfessor extends ExamExaminerKind {
+
+}
+
+Interface Exam {
+
+}
+
+class WrittenExamTwoProf implements Exam {
+'kennt man überhaupt alle klassen?
+'entwicklungsteam kann das konkretisieren - ausformulieren
+}
+class etc implements Exam {
+
+}
+
+Exam  -->  ExamExecutionKind
+Exam  -->  ExamExaminerKind
+
+
+
+
+
+@enduml
