@@ -50,5 +50,11 @@ public class Main {
         } catch (Exception e) {
             System.err.println("Fehler bei der Prüfungsanmeldung: " + e.getMessage());
         }
+        System.out.println("Examtyp: " + SEExam.getExamType() + "!!");
+        System.out.println("How many profs are participating?: " + SEExam.getNumberOfProfessors());
+
+        System.out.println("Examtyp: " + SEPresentation.getExamType() + "!!");
+        System.out.println("How many profs are participating?: " + SEPresentation.getNumberOfProfessors());
+
     }
 }

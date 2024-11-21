@@ -1,2 +1,6 @@
-public interface ExamOneProfessor extends ExamExaminerKind {
+abstract public class ExamOneProfessor implements ExamExaminerKind {
+    @Override
+    public int getNumberOfProfessors() {
+        return 1;
+    }
 }

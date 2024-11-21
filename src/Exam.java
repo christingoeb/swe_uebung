@@ -1,11 +1,17 @@
 import java.util.Date;
 
-public interface Exam {
-    Date getDate();
+abstract public class Exam {
+    private Date date;
 
-    void setDate(Date date);
+    public Exam(Date date) {
+        this.date = date;
+    }
 
-    String getType(); // Gibt die Art der Prüfung zurück (z. B. "WrittenExam", "OralExam")
+    public Date getDate() {
+        return date;
+    }
 
-    boolean isScheduled(); // Gibt zurück, ob die Prüfung geplant ist
+    public abstract String getExamType(); // Muss von Unterklassen implementiert werden
+
+    public abstract int getNumberOfProfessors(); // Muss von Unterklassen implementiert werden
 }

@@ -25,6 +25,7 @@ public class Student {
         if (exam.getDate().before(new Date())) {
             throw new IllegalStateException("Anmeldung nach dem Prüfungstermin ist nicht erlaubt!");
         }
-        System.out.println("Student " + name + " hat sich erfolgreich für die Prüfung angemeldet: " + exam.getType());
+        System.out
+                .println("Student " + name + " hat sich erfolgreich für die Prüfung angemeldet: " + exam.getExamType());
     }
 }

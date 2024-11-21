@@ -22,7 +22,7 @@ public class Course {
 
     public void addExam(Exam exam) {
         exams.add(exam);
-        System.out.println("Prüfung wurde dem Kurs " + courseName + " hinzugefügt: " + exam.getType());
+        System.out.println("Prüfung wurde dem Kurs " + courseName + " hinzugefügt: " + exam.getExamType());
     }
 
     public List<Exam> getExams() {

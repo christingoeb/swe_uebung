@@ -1,19 +1,13 @@
 import java.util.Date;
 
-public class WrittenExam implements ExamExecutionKind {
-    private Date date;
+abstract public class WrittenExam extends Exam {
 
     public WrittenExam(Date date) {
-        this.date = date;
-    }
-
-    @Override
-    public Date getDate() {
-        return date;
+        super(date);
     }
 
     @Override
     public String getExamType() {
-        return "Written";
+        return "Written Exam";
     }
 }

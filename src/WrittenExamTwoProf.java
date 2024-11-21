@@ -1,38 +1,17 @@
 import java.util.Date;
 import java.util.List;
 
-public class WrittenExamTwoProf implements Exam {
-    private Date date;
+public class WrittenExamTwoProf extends WrittenExam implements ExamExaminerKind {
     private boolean scheduled;
 
     public WrittenExamTwoProf(Date date) {
-        this.date = date;
+        super(date);
         this.scheduled = false;
     }
 
-    @Override
-    public Date getDate() {
-        return this.date;
-    }
-
-    @Override
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Override
-    public String getType() {
-        return "WrittenExamTwoProf";
-    }
-
-    @Override
-    public boolean isScheduled() {
-        return scheduled;
-    }
-
     public boolean schedule(List<Professor> professors) {
-        if (professors.size() != 2) {
-            throw new IllegalArgumentException("Es werden genau zwei Professoren benötigt.");
+        if (professors.size() != getNumberOfProfessors()) {
+            throw new IllegalArgumentException("Es werden genau " + getNumberOfProfessors() + " Professoren benötigt.");
         }
 
         for (Professor prof : professors) {
@@ -42,5 +21,10 @@ public class WrittenExamTwoProf implements Exam {
         }
         this.scheduled = true;
         return true;
+    }
+
+    @Override
+    public int getNumberOfProfessors() {
+        return 2; // Festgelegt für Prüfungen mit zwei Professoren
     }
 }
