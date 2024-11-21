@@ -12,7 +12,7 @@
     ' dass das Anmeldedatum noch vor dem Prüfungsdatum liegt.
     ' Der Student erhält entweder eine Bestätigung oder eine Fehlermeldung, falls
     ' die Anmeldefrist überschritten wurde.
-@startuml
+@startuml Sequenzdiagramm
 
 actor Student
 participant "Course" as Course

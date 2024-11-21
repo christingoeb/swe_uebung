@@ -1,0 +1,39 @@
+' Einschreiben des Studenten in den Kurs:
+    ' Der Student ruft enrollInCourse(Student) auf, und der Kurs fügt den Studenten zur Liste hinzu.
+' Hinzufügen einer Prüfung:
+    ' Ein Professor erstellt eine Instanz der Prüfung und fügt sie dem Kurs hinzu.
+' Planung der Prüfung:
+    ' Die Prüfung wird geplant, indem die Verfügbarkeit der Professoren überprüft wird.
+' Anmeldung eines Studenten zur Prüfung:
+    ' Der Student meldet sich an, und das Prüfungsdatum wird validiert.
+
+
+@startuml Sequenzdiagramm
+actor Student as s
+actor Professor as p
+participant Course as c
+participant Exam as e
+
+' Einschreiben des Studenten in den Kurs
+s -> c: enrollInCourse(Student)
+c -> c: addStudent(Student)
+c <-- s: Bestätigung
+
+' Hinzufügen einer Prüfung zu einem Kurs
+p -> e: createExam()
+e --> p: Exam-Instanz
+p -> c: addExam(Exam)
+c <-- p: Bestätigung
+
+' Planung der Prüfung (Scheduling)
+p -> e: schedule(Professor[])
+e -> p: checkAvailability()
+e <-- p: Erfolg/Fehler
+e <-- p: Bestätigung
+
+' Anmeldung eines Studenten zur Prüfung
+s -> c: registerForExam(Exam)
+c -> e: validateDate()
+e --> c: Erfolg/Fehler
+c <-- s: Bestätigung
+@enduml
