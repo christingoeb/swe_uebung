@@ -3,11 +3,13 @@ import java.util.List;
 
 public class Course {
     private String courseName;
+    private int courseId;
     private List<Student> students;
     private List<Exam> exams; // Liste von Prüfungen aller Arten
 
-    public Course(String courseName) {
+    public Course(int id, String courseName) {
         this.courseName = courseName;
+        this.courseId = id;
         this.students = new ArrayList<>();
         this.exams = new ArrayList<>();
     }

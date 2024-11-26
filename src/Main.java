@@ -8,11 +8,11 @@ public class Main {
         Professor schmidt = new Professor("Dr. Schmidt", true);
 
         // Studenten erstellen
-        Student anna = new Student("Anna", "S123");
-        Student max = new Student("Max", "S124");
+        Student anna = new Student("Anna", 123);
+        Student max = new Student("Max", 124);
 
         // Kurs erstellen
-        Course swe = new Course("Software Engineering");
+        Course swe = new Course(123, "Software Engineering");
 
         // Schritt 1: Studenten in den Kurs einschreiben
         System.out.println("== Einschreiben der Studenten in den Kurs ==");

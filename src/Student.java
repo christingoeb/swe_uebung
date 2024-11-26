@@ -2,9 +2,9 @@ import java.util.Date;
 
 public class Student {
     private String name;
-    private String studentId;
+    private int studentId;
 
-    public Student(String name, String studentId) {
+    public Student(String name, int studentId) {
         this.name = name;
         this.studentId = studentId;
     }
@@ -13,7 +13,7 @@ public class Student {
         return name;
     }
 
-    public String getStudentId() {
+    public int getStudentId() {
         return studentId;
     }
 
