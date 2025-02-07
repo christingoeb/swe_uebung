@@ -1,0 +1,10 @@
+@startuml
+actor Spieler
+participant "InteraktionsManager" as IM
+participant "SimpsonsPerson" as SP
+
+Spieler -> IM : interagiereMitAllenPersonen()
+IM -> SP : interagieren()
+SP -> Spieler : Antwort geben
+
+@enduml

@@ -1,0 +1,53 @@
+@startuml
+interface Interagierbar {
+    + interagieren(): void
+}
+
+abstract class Mensch {
+    - final String name
+    - final Date geburtsdatum
+    - Geschlecht geschlecht
+    + getName(): String
+    + getGeburtsdatum(): Date
+    + getGeschlecht(): Geschlecht
+}
+
+class SimpsonsPerson extends Mensch implements Interagierbar {
+    - SimpsonsPerson vater
+    - SimpsonsPerson mutter
+    - Status status
+    + setVater(SimpsonsPerson v)
+    + getVater(): SimpsonsPerson
+    + setMutter(SimpsonsPerson m)
+    + getMutter(): SimpsonsPerson
+    + setStatus(Status s)
+    + getStatus(): Status
+    + interagieren(): void
+}
+
+class Status {
+    + boolean istInteragierbar()
+    + boolean hatZugriffAufNamen()
+} 
+
+enum Geschlecht {
+    MAENNLICH
+    WEIBLICH
+}
+
+class InteraktionsManager {
+    - static InteraktionsManager instance
+    - List<SimpsonsPerson> npcs
+    + static getInstance(): InteraktionsManager
+    + addNPC(SimpsonsPerson p)
+    + interagiereMitAllenPersonen()
+}
+
+Mensch <|-- SimpsonsPerson
+SimpsonsPerson --> Geschlecht
+SimpsonsPerson --> Status
+SimpsonsPerson "0..1" -> "0..1" SimpsonsPerson : vater
+SimpsonsPerson "0..1" -> "0..1" SimpsonsPerson : mutter
+SimpsonsPerson ..|> Interagierbar
+InteraktionsManager --> SimpsonsPerson
+@enduml
